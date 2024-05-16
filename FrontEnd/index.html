@@ -9,16 +9,65 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
+	<script src="https://kit.fontawesome.com/17f6642d7e.js"></script>
 	<script src="index.js" defer></script>
+
 </head>
 <body>
+     <div class="admin">
+		  <span><i class="fa-regular fa-pen-to-square"></i></span>
+          <p>Mode Edition</p>
+	 </div>
+
+	<div class="container-modals">
+
+		<!-- Modale 1 -->
+		<div class="modal-projet">
+			<span><i class="fa-solid fa-xmark"></i></span>
+			<h2 class="title">Galerie photo</h2>
+	
+			<div class="container-gallery-button">
+				<div class="projet-modal"></div>
+				<div class="container-button-modal">
+					<button class="button-modal-1">Ajouter une photo</button>
+				</div>
+			</div>
+		</div>
+	
+	
+        <!-- Modale 2 -->
+
+		<div class="modal-ajout">
+			<span><i class="fa-solid fa-xmark"></i></span>
+			<span><i class="fa-solid fa-arrow-left"></i></span>
+			<h2>Ajout photo</h2>
+			<form>
+				<div class="container-file">
+					<span><i class="fa-regular fa-image"></i></span>
+					<label for="file" class="label-file">+ Ajouter une photo</label>
+						<input type="file" name="image" id="file">
+						<img id="previewImage" src="#" alt="Aperçu de l'image">
+						<p>jpg, png : 4mo max</p>
+				</div>
+				<label for="title">Titre</label>
+					<input type="text" name="title" id="title">
+					<label for="category-input">Catégorie</label>
+					<select name="category" id="category-input"></select>
+					<div class="container-button-ajout"></div>
+					<button type="submit" class="button-modal-2 button-modal-2-active">Valider</button>
+
+			</form>
+		</div>
+    </div>
+
 <header>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
 		<ul>
 			<li>projets</li>
 			<li>contact</li>
-			<li>login</li>
+			<li><a href="login.html" class="logout">login</li>
+		
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -37,6 +86,12 @@
 	</section>
 	<section id="portfolio">
 		<h2>Mes Projets</h2>
+		
+			<div class="modifier">
+				<span><i class="fa-regular fa-pen-to-square"></i></span>
+			    <a href="#" class="modif">modifier</a>
+		    </div>
+		
 		
 		<div class="filters">
 			<button class="button" id="0">Tous</button>
@@ -111,5 +166,6 @@
 		</ul>
 	</nav>
 </footer>
+
 </body>
 </html>

@@ -98,11 +98,197 @@ async function filterCategory() {
 filterCategory();
 
 
+/**** Modals****/
+
+
+const loged =  window.sessionStorage.loged
+const logout = document.querySelector("header nav .logout");
+const modifier = document.querySelector(".modifier ");
+const containerModals = document.querySelector(".container-modals");
+const closeModals = document.querySelector(".container-modals .fa-xmark");
+const projetModal = document.querySelector(".projet-modal");
+const admin = document.querySelector(".admin")
+
+
+
+
+if (loged == "true") {
+  admin.style.display = "flex";
+  logout.textContent = "logout";
+  modifier.style.display = "flex";
+  logout.addEventListener("click", () => {
+    window.sessionStorage.loged = false;
+  }); 
+  
+}
+
+
+  // affichage de la premiere modal
+
+
+   modifier.addEventListener("click", () => {
+    containerModals.style.display = "flex";
+});
+
+closeModals.addEventListener("click", () => {
+    containerModals.style.display = "none";
+});
+
+
+containerModals.addEventListener("click", (e) => {
+    if (e.target.className === "container-modals") {
+        containerModals.style.display = "none";
+    }
+});
+
+
+ /* Affichage  galerie  modale 1 */
+ 
+ 
+ async function displayGalerieModal() {
+  projetModal.innerHTML = "";
+  const imageWork = await getWorks();
+  imageWork.forEach(projet => {
+      const figure = document.createElement("figure");
+      const img = document.createElement("img");
+      const span = document.createElement("span");
+      const trash = document.createElement("i");
+      trash.classList.add("fa-solid", "fa-trash-can");
+      trash.id = projet.id;
+
+      
+      trash.addEventListener("click", () =>  {
+         
+          const token = window.sessionStorage.getItem("token");
+          fetch(`http://localhost:5678/api/works/${projet.id}`, {
+              method: "DELETE",
+              headers: {
+                  Authorization: `Bearer ${token}`
+              }
+          })
+          .then (response => {
+              figure.remove();
+
+              affichageWorks();
+          })
+          
+      })
+
+      img.src = projet.imageUrl;
+      span.appendChild(trash);
+      figure.appendChild(span);
+      figure.appendChild(img);
+      projetModal.appendChild(figure);
+  });
+}
+displayGalerieModal();
+
+
+// affichge modal 2
+
+
+const btn1 = document.querySelector(".button-modal-1");
+const modalAjoutPhoto = document.querySelector(".modal-ajout");
+const modalGaleriePhoto = document.querySelector(".modal-projet");
+const arrowLeft = document.querySelector(".fa-arrow-left");
+const closeModal2 = document.querySelector(".modal-ajout .fa-xmark");
+
+function displayModal2() {
+  btn1.addEventListener("click", ()=>{
+    modalAjoutPhoto.style.display = "flex";
+    modalGaleriePhoto.style.display = "none";
+  });
+arrowLeft.addEventListener("click", ()=>{
+  modalAjoutPhoto.style.display = "none";
+  modalGaleriePhoto.style.display = "flex";
+});
+
+closeModal2.addEventListener("click", ()=>{
+  containerModals.style.display = "none";
+
+});
+
+}
+displayModal2();
+
+// preview de l'image 
+
+const previewImg = document.querySelector(".container-file img");
+const inputFile = document.querySelector(".container-file input");
+const labelFile = document.querySelector(".container-file label");
+const iconFile = document.querySelector(".container-file .fa-image");
+const pFile = document.querySelector(".container-file p");
+
+
+
+inputFile.addEventListener("change",()=>{
+  const file = inputFile.files[0]
+
 
   
+  if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+              previewImg.src = e.target.result;
+              previewImg.style.display = "flex";
+              labelFile.style.display = "none";
+              iconFile.style.display = "none";
+              pFile.style.display = "none";
+      }
+     
+      reader.readAsDataURL(file);
+  
+  }
+});
 
 
+// creer une liste de categories dans l'input select
+
+async function displayCategoryModal () {
+  const select = document.querySelector(".modal-ajout select");
+  const categorys = await getCategorys();
+  categorys.forEach(category => {
+    const option = document.createElement("option");
+    option.value = category.id;
+    option.textContent = category.name
+    select.appendChild(option);
+  })
+}
+displayCategoryModal();
 
 
+// faire un POST pour ajouter une photo
+
+const form = document.querySelector(".modal-ajout form");
+const title = document.querySelector(".modal-ajout #title");
+const category = document.querySelector(".modal-ajout #category-input");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  
+  const playload = new FormData();
+  playload.append("title", title.value);
+  playload.append("category", category.value);
+  playload.append("image", inputFile.files[0]);
+
+      const token = window.sessionStorage.getItem("token");
+     
+      const response = await fetch("http://localhost:5678/api/works/", {
+          method: "POST",
+          headers: {
+              Authorization: `Bearer ${token}`
+          },
+          body: playload,
+      });
+    
+      const data = await response.json();
+    
+     
+     
+     affichageWorks();
+      displayGalerieModal();
+
+ 
+});
 
 
