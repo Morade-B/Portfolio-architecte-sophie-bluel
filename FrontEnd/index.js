@@ -297,7 +297,7 @@ form.addEventListener("submit", async (e) => {
 
 // fonction qui verifie si tout les inputs sont remplis
 
-function formCompleted() {
+function formCompleted()  {
  
   const buttonValidForm = document.querySelector(".modal-ajout button");
  
