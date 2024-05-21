@@ -261,7 +261,7 @@ li:hover {
 	margin-bottom: 15px;
 	cursor: pointer;
 	gap: 10px;
-	padding-left: 400px;
+	padding-left: 330px;
 	
 }
 
@@ -270,7 +270,10 @@ li:hover {
 	text-decoration: none;
 }
 
-
+.mdp {
+	
+	color: #000000;
+}
 
 
 
@@ -391,8 +394,8 @@ footer nav ul {
 
 .modal-projet {
 	background-color: #FFFFFF;
-	width: 50%;
-	height: 65%;
+	width: 40%;
+	height: 80%;
 	border-radius: 10px;
 	display: flex;
 	flex-direction: column;
@@ -503,7 +506,7 @@ footer nav ul {
 .modal-ajout {
 	background-color: #FFFFFF;
 	width: 40%;
-	height: 70%;
+	height: 80%;
 	border-radius: 10px;
 	display: none;
 	flex-direction: column;
@@ -566,6 +569,7 @@ footer nav ul {
 	max-width: 100%;
 	height: 100%;
 	position: absolute;
+	padding-top: 20px;
 }
 
 .modal-ajout form .container-file .fa-image {
@@ -614,7 +618,7 @@ footer nav ul {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 40px;
+	height: 20px;
 	width: 100%;
 	border-top: 1px solid gray;
 }
@@ -622,7 +626,7 @@ footer nav ul {
 
  .button-modal-2 {
 	background-color: #a7a7a7;
-	padding: 10px 50px;
+	padding: 10px 0px;
 	border-radius: 25px;
 	color: #FFFFFF;
 	font-weight: 700;
@@ -630,8 +634,20 @@ footer nav ul {
 	font-family: Syne;
 	cursor: pointer;
 	border: none;
+	margin:0 70px;
 }
 
 
 
-
+.button-modal-2-active {
+background-color: #1d6154;
+padding: 10px 0px;
+	border-radius: 25px;
+	color: #FFFFFF;
+	font-weight: 700;
+	font-size: 16px;
+	font-family: Syne;
+	cursor: pointer;
+	border: none;
+	margin:0 70px;
+}

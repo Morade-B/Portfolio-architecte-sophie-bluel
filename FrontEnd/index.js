@@ -1,8 +1,8 @@
 
 
-//  l’appel à l’API avec fetch pour recuperer les données du backend 
+//  l’appel à l’API avec fetch pour recuperer les données 
 
-// fonction pour recupérer le tableau des works
+// fonction pour recupérer le tableau des travaux (works)
 
 async function getWorks() {
   const response = await fetch("http://localhost:5678/api/works");
@@ -14,7 +14,7 @@ getWorks();
 
 
 
-// affichage des travaux de l’architecte 
+// affichage des travaux 
 
 const gallery = document.querySelector(".gallery");
 
@@ -48,7 +48,7 @@ function createWorks(work) {
 
 
 
-// affichage des boutons par categories
+// ***Affichage des boutons par categorie***//
 
 // récupérer les categories et les afficher 
 
@@ -107,10 +107,12 @@ const modifier = document.querySelector(".modifier ");
 const containerModals = document.querySelector(".container-modals");
 const closeModals = document.querySelector(".container-modals .fa-xmark");
 const projetModal = document.querySelector(".projet-modal");
-const admin = document.querySelector(".admin")
+const admin = document.querySelector(".admin");
 
 
 
+
+// Si l'utilisateur est connecté
 
 if (loged == "true") {
   admin.style.display = "flex";
@@ -123,7 +125,7 @@ if (loged == "true") {
 }
 
 
-  // affichage de la premiere modal
+  // affichage de la premiere modal au click sur modifier
 
 
    modifier.addEventListener("click", () => {
@@ -136,7 +138,7 @@ closeModals.addEventListener("click", () => {
 
 
 containerModals.addEventListener("click", (e) => {
-    if (e.target.className === "container-modals") {
+    if (e.target.className == "container-modals") {
         containerModals.style.display = "none";
     }
 });
@@ -147,8 +149,8 @@ containerModals.addEventListener("click", (e) => {
  
  async function displayGalerieModal() {
   projetModal.innerHTML = "";
-  const imageWork = await getWorks();
-  imageWork.forEach(projet => {
+  const projetWork = await getWorks();
+  projetWork.forEach(projet => {
       const figure = document.createElement("figure");
       const img = document.createElement("img");
       const span = document.createElement("span");
@@ -166,7 +168,7 @@ containerModals.addEventListener("click", (e) => {
                   Authorization: `Bearer ${token}`
               }
           })
-          .then (response => {
+          .then (data => {
               figure.remove();
 
               affichageWorks();
@@ -266,10 +268,10 @@ const category = document.querySelector(".modal-ajout #category-input");
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   
-  const playload = new FormData();
-  playload.append("title", title.value);
-  playload.append("category", category.value);
-  playload.append("image", inputFile.files[0]);
+  const formData = new FormData();
+  formData.append("title", title.value);
+  formData.append("category", category.value);
+  formData.append("image", inputFile.files[0]);
 
       const token = window.sessionStorage.getItem("token");
      
@@ -278,17 +280,48 @@ form.addEventListener("submit", async (e) => {
           headers: {
               Authorization: `Bearer ${token}`
           },
-          body: playload,
+          body: formData,
       });
     
       const data = await response.json();
     
+    
      
      
      affichageWorks();
-      displayGalerieModal();
+    displayGalerieModal();
 
  
 });
 
 
+// fonction qui verifie si tout les inputs sont remplis
+
+function formCompleted() {
+ 
+  const buttonValidForm = document.querySelector(".modal-ajout button");
+ 
+  console.log(inputFile.files[0]);
+  if (title.value !== "" && inputFile.files[0] !== undefined && category.value !== "") {
+    
+      buttonValidForm.classList.remove("button-modal-2");
+      buttonValidForm.classList.add("button-modal-2-active");
+      
+      
+      buttonValidForm.addEventListener("click", () => {
+          containerModals.style.display = "none";
+      });           
+
+  } else {
+      buttonValidForm.classList.remove("button-modal-2-active");
+      buttonValidForm.classList.add("button-modal-2");
+   
+      
+  }
+ 
+}
+formCompleted();
+
+title.addEventListener("change",formCompleted);
+category.addEventListener("change",formCompleted);
+inputFile.addEventListener("change",formCompleted);
