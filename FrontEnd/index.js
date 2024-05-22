@@ -11,9 +11,6 @@ async function getWorks() {
 }
 getWorks();
 
-
-
-
 // affichage des travaux 
 
 const gallery = document.querySelector(".gallery");
@@ -45,7 +42,6 @@ function createWorks(work) {
   gallery.appendChild(figure);
  
 }
-
 
 
 // ***Affichage des boutons par categorie***//
@@ -108,8 +104,6 @@ const containerModals = document.querySelector(".container-modals");
 const closeModals = document.querySelector(".container-modals .fa-xmark");
 const projetModal = document.querySelector(".projet-modal");
 const admin = document.querySelector(".admin");
-
-
 
 
 // Si l'utilisateur est connecté
@@ -221,13 +215,10 @@ const labelFile = document.querySelector(".container-file label");
 const iconFile = document.querySelector(".container-file .fa-image");
 const pFile = document.querySelector(".container-file p");
 
-
-
 inputFile.addEventListener("change",()=>{
   const file = inputFile.files[0]
 
 
-  
   if (file) {
       const reader = new FileReader();
       reader.onload = function (e) {
@@ -265,6 +256,7 @@ const form = document.querySelector(".modal-ajout form");
 const title = document.querySelector(".modal-ajout #title");
 const category = document.querySelector(".modal-ajout #category-input");
 
+
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   
@@ -285,9 +277,7 @@ form.addEventListener("submit", async (e) => {
     
       const data = await response.json();
     
-    
-     
-     
+ 
      affichageWorks();
     displayGalerieModal();
 
@@ -300,8 +290,12 @@ form.addEventListener("submit", async (e) => {
 function formCompleted()  {
  
   const buttonValidForm = document.querySelector(".modal-ajout button");
+  title.addEventListener("change",formCompleted);
+  category.addEventListener("change",formCompleted);
+  inputFile.addEventListener("change",formCompleted);
  
-  console.log(inputFile.files[0]);
+ 
+  
   if (title.value !== "" && inputFile.files[0] !== undefined && category.value !== "") {
     
       buttonValidForm.classList.remove("button-modal-2");
@@ -309,19 +303,22 @@ function formCompleted()  {
       
       
       buttonValidForm.addEventListener("click", () => {
+          modalGaleriePhoto.style.display ="flex";
+          modalAjoutPhoto.style.display = "none";
           containerModals.style.display = "none";
-      });           
-
+          
+      
+      });   
+      
+    
   } else {
       buttonValidForm.classList.remove("button-modal-2-active");
       buttonValidForm.classList.add("button-modal-2");
    
       
   }
- 
+  
 }
 formCompleted();
 
-title.addEventListener("change",formCompleted);
-category.addEventListener("change",formCompleted);
-inputFile.addEventListener("change",formCompleted);
+
