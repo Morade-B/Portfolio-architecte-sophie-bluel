@@ -1,7 +1,7 @@
 
- /* Fonction asynchrone qui effectue une requête HTTP pour récupérer des données depuis l'API */
+/* Fonction asynchrone qui effectue une requête HTTP pour récupérer des données depuis l'API */
 
- /* Récupération des travaux */
+/* Récupération des travaux */
 async function getWorks() {
   const response = await fetch("http://localhost:5678/api/works");
   /* Passe la réponse en tant que JSON et la retourne */
@@ -17,14 +17,14 @@ async function displayWorks() {
   const works = await getWorks();
   /* supprimez du html les travaux déja existant */
   gallery.innerHTML = "";
- /* Pour chaque œuvre dans le tableau, appelle la fonction createWorks */
+  /* Pour chaque œuvre dans le tableau, appelle la fonction createWorks */
   works.forEach((work) => {
     createWorks(work);
   });
 }
 displayWorks();
 
- /* Fonction permettant de créer des éléments DOM associés à une œuvre */
+/* Fonction permettant de créer des éléments DOM associés à une œuvre */
 function createWorks(work) {
   const figure = document.createElement("figure");
   const img = document.createElement("img");
@@ -36,10 +36,10 @@ function createWorks(work) {
   gallery.appendChild(figure);
 
 }
- /* Récupération des catégories du tableau */
+/* Récupération des catégories du tableau */
 
 const filters = document.querySelector(".filters")
- /* Effectue une requête HTTP vers l'API pour obtenir les catégories */
+/* Effectue une requête HTTP vers l'API pour obtenir les catégories */
 async function getCategories() {
   const response = await fetch("http://localhost:5678/api/categories");
   return await response.json();
@@ -48,7 +48,7 @@ getCategories();
 
 /* Affichage des catégories du tableau */
 async function displayCategoryButtons() {
-   /* Appel la fonction getCategories pour obtenir les catégories depuis l'API */
+  /* Appel la fonction getCategories pour obtenir les catégories depuis l'API */
   const categories = await getCategories();
   /* Pour chaque catégorie obtenue, on crée un bouton */
   categories.forEach((category) => {
@@ -68,7 +68,7 @@ async function filterCategory() {
   const buttons = document.querySelectorAll(".filters button");
   buttons.forEach((button) => {
     button.addEventListener("click", (e) => {
-       /* Récupération de l'ID du bouton cliqué */
+      /* Récupération de l'ID du bouton cliqué */
       const btnId = e.target.id;
       gallery.innerHTML = "";
       if (btnId !== "0") {
@@ -135,7 +135,7 @@ async function displayGalleryModal() {
     trash.classList.add("fa-solid", "fa-trash-can");
     trash.id = projet.id;
     trash.addEventListener("click", () => {
-  /* Récupèration du token d'authentification depuis la sessionStorage */
+      /* Récupèration du token d'authentification depuis la sessionStorage */
       const token = window.sessionStorage.getItem("token");
       /* Envoie une requête DELETE au serveur pour supprimer le projet */
       fetch(`http://localhost:5678/api/works/${projet.id}`, {
@@ -146,10 +146,11 @@ async function displayGalleryModal() {
       })
         .then(data => {
           figure.remove();
-displayWorks();
+          displayWorks();
+          filterCategory();
         })
     })
-img.src = projet.imageUrl;
+    img.src = projet.imageUrl;
     span.appendChild(trash);
     figure.appendChild(span);
     figure.appendChild(img);
@@ -165,7 +166,7 @@ const modalAjoutPhoto = document.querySelector(".modal-ajout");
 const modalGaleriePhoto = document.querySelector(".modal-projet");
 const arrowLeft = document.querySelector(".fa-arrow-left");
 const closeModal2 = document.querySelector(".modal-ajout .fa-xmark");
- /* Fonction permettant l'affichage de la modale 2 */
+/* Fonction permettant l'affichage de la modale 2 */
 function displayModal2() {
   btn1.addEventListener("click", () => {
     modalAjoutPhoto.style.display = "flex";
@@ -191,7 +192,7 @@ const iconFile = document.querySelector(".container-file .fa-image");
 const pFile = document.querySelector(".container-file p");
 
 inputFile.addEventListener("change", () => {
-   /* Récupération du fichier sélectionné dans l'input */
+  /* Récupération du fichier sélectionné dans l'input */
   const file = inputFile.files[0]
 
   if (file) {
@@ -205,7 +206,7 @@ inputFile.addEventListener("change", () => {
       iconFile.style.display = "none";
       pFile.style.display = "none";
     }
-      /* Lecture du contenu du fichier sous forme d'URL data:URL */
+    /* Lecture du contenu du fichier sous forme d'URL data:URL */
     reader.readAsDataURL(file);
   }
 });
@@ -231,16 +232,16 @@ const title = document.querySelector(".modal-ajout #title");
 const category = document.querySelector(".modal-ajout #category-input");
 
 form.addEventListener("submit", async (e) => {
-   /* Empêche le comportement par défaut de soumission du formulaire */
+  /* Empêche le comportement par défaut de soumission du formulaire */
   e.preventDefault();
- /* Ajout des données au FormData pour l'envoi via la requête HTTP */
+  /* Ajout des données au FormData pour l'envoi via la requête HTTP */
   const formData = new FormData();
   formData.append("title", title.value);
   formData.append("category", category.value);
   formData.append("image", inputFile.files[0]);
 
   const token = window.sessionStorage.getItem("token");
- /* Envoi de la requête POST au serveur avec les données du formulaire */
+  /* Envoi de la requête POST au serveur avec les données du formulaire */
   const response = await fetch("http://localhost:5678/api/works/", {
     method: "POST",
     headers: {
